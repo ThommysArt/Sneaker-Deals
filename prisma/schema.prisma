@@ -13,20 +13,18 @@ datasource db {
   url      = "file:./db/test.db"
 }
 
-
 model User {
-  id String @id @default(uuid())
-  name String
-  email String
+  id       String @id @default(uuid())
+  name     String
+  email    String
   password String
 
   payments Payment[]
-  orders Order[]
+  orders   Order[]
 }
 
-
 model Brand {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String
   logo String
 
@@ -34,11 +32,11 @@ model Brand {
 }
 
 model Product {
-  id String @id @default(uuid())
+  id       String @id @default(uuid())
   brand_id Int
-  name String
-  image String
-  price Float
+  name     String
+  image    String
+  price    Float
 
   orders Order_Product[]
 
@@ -46,9 +44,9 @@ model Product {
 }
 
 model Payment {
-  id String @id @default(uuid())
-  type String
-  amount Float
+  id      String @id @default(uuid())
+  type    String
+  amount  Float
   user_id String
 
   orders Order_Payment[]
@@ -57,9 +55,9 @@ model Payment {
 }
 
 model Order {
-  id String @id @default(uuid())
+  id      String  @id @default(uuid())
   user_id String
-  paid Boolean @default(false)
+  paid    Boolean @default(false)
 
   products Order_Product[]
   paymnets Order_Payment[]
@@ -68,21 +66,21 @@ model Order {
 }
 
 model Order_Product {
-  id String @id @default(uuid())
-  order_id String
+  id         String @id @default(uuid())
+  order_id   String
   product_id String
-  quantity Int
-  size Int
+  quantity   Int
+  size       Int
 
-  order Order @relation(fields: [order_id], references: [id])
+  order   Order   @relation(fields: [order_id], references: [id])
   product Product @relation(fields: [product_id], references: [id])
 }
 
 model Order_Payment {
-  id String @id @default(uuid())
-  order_id String
+  id         String @id @default(uuid())
+  order_id   String
   payment_id String
 
-  order Order @relation(fields: [order_id], references: [id])
+  order   Order   @relation(fields: [order_id], references: [id])
   payment Payment @relation(fields: [payment_id], references: [id])
 }

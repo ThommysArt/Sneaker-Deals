@@ -22,4 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+#prisma
 *.env
+prisma/db/*
+prisma/migrations/*
