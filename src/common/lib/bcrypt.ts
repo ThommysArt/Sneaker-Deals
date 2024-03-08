@@ -1,23 +1,23 @@
 import * as bcrypt from "bcrypt";
 
-export function hashPassword(plaintextPassword: string) {
-    bcrypt.hash(plaintextPassword, 10)
+export function hashPassword(plaintextPassword: string): Promise<string> {
+    return bcrypt.hash(plaintextPassword, 10)
         .then(hash => {
-            return hash
+            return hash;
         })
         .catch(err => {
-            console.log(err)
-        })
+            console.log(err);
+            return "Error";
+        });
 }
 
-
-export function comparePassword(plaintextPassword: string, hash: string) {
-    bcrypt.compare(plaintextPassword, hash)
+export function comparePassword(plaintextPassword: string, hash: string): Promise<boolean> {
+    return bcrypt.compare(plaintextPassword, hash)
         .then(result => {
-            return result
+            return result;
         })
         .catch(err => {
-            console.log(err)
-        })
- }
- 
+            console.log(err);
+            return false;
+        });
+}
