@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db/test.db"
+}
+
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String
+  password String
+
+  payments Payment[]
+  orders Order[]
+}
+
+
+model Brand {
+  id Int @id @default(autoincrement())
+  name String
+  logo String
+
+  products Product[]
+}
+
+model Product {
+  id String @id @default(uuid())
+  brand_id Int
+  name String
+  image String
+  price Float
+
+  orders Order_Product[]
+
+  brand Brand @relation(fields: [brand_id], references: [id])
+}
+
+model Payment {
+  id String @id @default(uuid())
+  type String
+  amount Float
+  user_id String
+
+  orders Order_Payment[]
+
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model Order {
+  id String @id @default(uuid())
+  user_id String
+  paid Boolean @default(false)
+
+  products Order_Product[]
+  paymnets Order_Payment[]
+
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model Order_Product {
+  id String @id @default(uuid())
+  order_id String
+  product_id String
+  quantity Int
+  size Int
+
+  order Order @relation(fields: [order_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id])
+}
+
+model Order_Payment {
+  id String @id @default(uuid())
+  order_id String
+  payment_id String
+
+  order Order @relation(fields: [order_id], references: [id])
+  payment Payment @relation(fields: [payment_id], references: [id])
+}
