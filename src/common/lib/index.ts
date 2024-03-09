@@ -1,2 +1,3 @@
-export { default as prisma } from './prisma';
-export { hashPassword as hashPassword, comparePassword as comparePassword } from './bcrypt';
+export { default as prisma } from './dbms';
+export { hashPassword as hashPassword, comparePassword as comparePassword } from './pwdHash';
+export { default as httpReq } from './httpReq'
