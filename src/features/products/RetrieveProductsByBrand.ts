@@ -1,17 +1,20 @@
+
 import { prisma } from "../../common/lib"
 
-export default async function RetreiveProductsByBrand(brand_name: string) {
-    return await prisma.brand.findFirst({
+export default function RetrieveProductsByBrand(brand_name: string) {
+    return prisma.brand.findFirst({
         where: {
             name: brand_name
         }
-    }).then((brand) => {
+    }).then(async (brand) => {
         if (brand) {
-            prisma.product.findMany({
+            return prisma.product.findMany({
                 where: {
                     brand_id: brand.id
                 }
-            })                           
+            });                        
+        } else {
+            return null;
         }
     }).catch((error) => {
         alert(error);

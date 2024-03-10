@@ -52,10 +52,11 @@ model Product_Image {
 }
 
 model Payment {
-  id      String @id @default(uuid())
-  type    String
-  amount  Float
-  user_id String
+  id        String   @id @default(uuid())
+  type      String
+  amount    Float
+  user_id   String
+  timestamp DateTime @default(now())
 
   orders Order_Payment[]
 
