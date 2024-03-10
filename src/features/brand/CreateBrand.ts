@@ -1,16 +1,19 @@
-import { httpReq, prisma } from "../../common/lib";
+import { logoUploadUrl } from "../../common/constants";
+import { prisma } from "../../common/lib";
+import { uploadFile, uploadForm } from "../../common/utils";
 
 async function CreateBrand (name: string, logo: File) {
-    const formData = new FormData();
-    formData.append('file', logo);
-    const res = await httpReq.post('/uploads/logos', formData);
-    prisma.brand.create({
-        data: {
-            name: name,
-            logo: "/upoads/logos/" + logo.name
-        }
+    const formData = uploadForm(logo)
+    uploadFile(logoUploadUrl, formData)
+    .then(() => {
+        prisma.brand.create({
+            data: {
+                name: name,
+                logo: "/uploads/logos/" + logo.name
+            }
+        })
+        alert("Successfully created");
     })
-    alert(res);
 }
 
 export default CreateBrand;

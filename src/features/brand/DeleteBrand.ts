@@ -1,4 +1,4 @@
-import { prisma } from "../../common/lib";
+import { deleteFile, prisma } from "../../common/lib";
 
 
 export default async function DeleteBrand(name: string) {
@@ -13,8 +13,11 @@ export default async function DeleteBrand(name: string) {
                 where: {
                     id: brand.id
                 }
-            }).then((res) => {
-                alert(res);
+            }).then(() => {
+                deleteFile(brand.logo)
+                .then(() => {
+                    alert("deleted brand successfully");
+                })
             })
         }
     })

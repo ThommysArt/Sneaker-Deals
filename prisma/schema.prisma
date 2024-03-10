@@ -35,12 +35,20 @@ model Product {
   id       String @id @default(uuid())
   brand_id Int
   name     String
-  image    String
   price    Float
 
-  orders Order_Product[]
+  product_images Product_Image[]
+  orders         Order_Product[]
 
   brand Brand @relation(fields: [brand_id], references: [id])
+}
+
+model Product_Image {
+  id         Int    @id @default(autoincrement())
+  product_id String
+  image      String
+
+  product Product @relation(fields: [product_id], references: [id])
 }
 
 model Payment {
